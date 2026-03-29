@@ -315,11 +315,11 @@ with tabs[3]:
                 df["BUREAU_LOAN_COUNT"].fillna(0, inplace=True)
 
             # Previous apps merge
-            if prev_app_file:
+            '''if prev_app_file:
                 prev_app = load_csv(prev_app_file)
                 prev_agg = prev_app.groupby("SK_ID_CURR", as_index=False)["AMT_CREDIT"].mean()
                 prev_agg.columns = ["SK_ID_CURR", "PREV_APP_CREDIT_MEAN"]
-                df = df.merge(prev_agg, on="SK_ID_CURR", how="left")
+                df = df.merge(prev_agg, on="SK_ID_CURR", how="left")'''
 
             # Drop high-missing columns
             miss = df.isnull().mean()
