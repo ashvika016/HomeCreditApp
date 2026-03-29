@@ -58,8 +58,7 @@ tabs = st.tabs([
     "📊 Overview",
     "🔍 EDA",
     "⚙️ Feature Engineering",
-    "🤖 Model Training",
-    "📁 Submission",
+    "🤖 Model Training"
 ])
 
 # ===========================================================================
