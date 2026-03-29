@@ -39,7 +39,7 @@ with st.sidebar:
     train_file    = st.file_uploader("application_train.csv",    type="csv", key="train")
     test_file     = st.file_uploader("application_test.csv",     type="csv", key="test")
     bureau_file   = st.file_uploader("bureau.csv",               type="csv", key="bureau")
-    prev_app_file = st.file_uploader("previous_application.csv", type="csv", key="prev")
+    #prev_app_file = st.file_uploader("previous_application.csv", type="csv", key="prev")
 
     st.markdown("---")
     st.info("Upload at least **application_train.csv** to start exploring.")
@@ -238,37 +238,37 @@ with tabs[2]:
         st.info("Upload **bureau.csv** to see bureau aggregation.")
 
     # ── Previous applications ─────────────────────────────────────────────
-    st.subheader("Previous Applications Aggregation")
-    if prev_app_file:
-        prev_app = load_csv(prev_app_file)
-        prev_cats = pd.get_dummies(prev_app["NAME_CONTRACT_STATUS"], prefix="PREV")
-        prev_app = pd.concat([prev_app, prev_cats], axis=1)
-        prev_app["APP_CREDIT_PERC"] = prev_app["AMT_CREDIT"] / prev_app["AMT_APPLICATION"].replace(0, np.nan)
+    # st.subheader("Previous Applications Aggregation")
+    # if prev_app_file:
+    #     prev_app = load_csv(prev_app_file)
+    #     prev_cats = pd.get_dummies(prev_app["NAME_CONTRACT_STATUS"], prefix="PREV")
+    #     prev_app = pd.concat([prev_app, prev_cats], axis=1)
+    #     prev_app["APP_CREDIT_PERC"] = prev_app["AMT_CREDIT"] / prev_app["AMT_APPLICATION"].replace(0, np.nan)
 
-        agg_dict = {
-            "SK_ID_PREV": "count",
-            "AMT_CREDIT": "mean",
-            "AMT_APPLICATION": "mean",
-            "APP_CREDIT_PERC": "mean",
-            "AMT_DOWN_PAYMENT": "mean",
-        }
-        for col in ["PREV_Approved", "PREV_Refused", "PREV_Canceled", "PREV_Unused offer"]:
-            if col in prev_app.columns:
-                agg_dict[col] = "sum"
+    #     agg_dict = {
+    #         "SK_ID_PREV": "count",
+    #         "AMT_CREDIT": "mean",
+    #         "AMT_APPLICATION": "mean",
+    #         "APP_CREDIT_PERC": "mean",
+    #         "AMT_DOWN_PAYMENT": "mean",
+    #     }
+    #     for col in ["PREV_Approved", "PREV_Refused", "PREV_Canceled", "PREV_Unused offer"]:
+    #         if col in prev_app.columns:
+    #             agg_dict[col] = "sum"
 
-        prev_agg = prev_app.groupby("SK_ID_CURR").agg(agg_dict).reset_index()
-        prev_agg.columns = (["SK_ID_CURR", "PREV_COUNT", "PREV_AVG_CREDIT", "PREV_AVG_AMT_APP",
-                              "PREV_AVG_CREDIT_PERC", "PREV_AVG_DOWN_PAYMENT"] +
-                             [c for c in ["PREV_CNT_APPROVED", "PREV_CNT_REFUSED",
-                                          "PREV_CNT_CANCELED", "PREV_CNT_UNUSED"]
-                              if ("PREV_" + c.split("_CNT_")[1].capitalize()) in prev_app.columns or
-                                 c.replace("CNT_", "") in prev_app.columns
-                              ][:len(agg_dict) - 6])
+    #     prev_agg = prev_app.groupby("SK_ID_CURR").agg(agg_dict).reset_index()
+    #     prev_agg.columns = (["SK_ID_CURR", "PREV_COUNT", "PREV_AVG_CREDIT", "PREV_AVG_AMT_APP",
+    #                           "PREV_AVG_CREDIT_PERC", "PREV_AVG_DOWN_PAYMENT"] +
+    #                          [c for c in ["PREV_CNT_APPROVED", "PREV_CNT_REFUSED",
+    #                                       "PREV_CNT_CANCELED", "PREV_CNT_UNUSED"]
+    #                           if ("PREV_" + c.split("_CNT_")[1].capitalize()) in prev_app.columns or
+    #                              c.replace("CNT_", "") in prev_app.columns
+    #                           ][:len(agg_dict) - 6])
 
-        st.success(f"Previous applications aggregated → {prev_agg.shape[0]:,} clients")
-        st.dataframe(prev_agg.head(6), use_container_width=True)
-    else:
-        st.info("Upload **previous_application.csv** to see previous application features.")
+    #     st.success(f"Previous applications aggregated → {prev_agg.shape[0]:,} clients")
+    #     st.dataframe(prev_agg.head(6), use_container_width=True)
+    # else:
+    #     st.info("Upload **previous_application.csv** to see previous application features.")
 
 # ===========================================================================
 # TAB 3 – MODEL TRAINING
