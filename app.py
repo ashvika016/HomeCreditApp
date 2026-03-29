@@ -39,7 +39,7 @@ with st.sidebar:
     train_file    = st.file_uploader("application_train.csv",    type="csv", key="train")
     test_file     = st.file_uploader("application_test.csv",     type="csv", key="test")
     bureau_file   = st.file_uploader("bureau.csv",               type="csv", key="bureau")
-    prev_app_file = st.file_uploader("previous_application.csv", type="csv", key="prev")
+    #prev_app_file = st.file_uploader("previous_application.csv", type="csv", key="prev")
 
     st.markdown("---")
     st.info("Upload at least **application_train.csv** to start exploring.")
